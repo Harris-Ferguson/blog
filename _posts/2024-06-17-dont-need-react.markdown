@@ -1,0 +1,22 @@
+---
+layout: post
+title:  "Where React Doesn't Scale"
+date:   2024-06-17 09:30:00 -0600
+categories: React Hooks Frontend Architecture
+---
+
+After around 2 years of professional experience with React, I've reached a conclusion that React alone doesn't scale. Before you come at me with pitchforks, I don't mean in the technical sense! React comes packaged with some challenges that can be a hinderance to the Front End of medium to large size orgs. This isn't to say I don't like react or its ecosystem and that we shouldn't be using it, but realizing React's limitations only serves to make us all stronger React developers. 
+
+In my first ever web course in university, my TA in the very first lab told us something that is really core to what I mean here: 
+
+*React is not a framework, its a UI library.*
+
+For a long time I relegated this fact to something I could say at dev trivia games or over lunch with co-workers, but this idea is really deep. React isn't an opinionated way to build a front end. React isn't a way to manage how data flows through an application. React isn't a tool to build entire applications. What React *is* is a library to manage the lifecycle of UI. All the fancy hooks and contexts are just there to help you manage how your UI changes over time in a (mostly) declarative way. 
+
+Since React itself doesn't have any opinions about what you do outside of how it expects you to manage this visual lifecycle, in larger orgs what tends to happen is that the Front End codebase gets more and more chaotic. I won't go as far to say it gets messy or unclean, as long as an org has good coding standards the code itself can make sense be quite clean. What I mean is that over time there isn't a unified way to do the things a large application needs to do, particularly at the boundary between front end and back end. React doesn't have an opinion about how you fetch data from the backend, so what will happen is some teams fetch their data using custom hooks, and others write large `useEffect`s that fetch data, and others leverage tools like Redux to manage their data. When Contexts were introduced teams started to favour that instead of Redux as a way to manage their data, and again React really has no care in the world about how you pass data down to its components. 
+
+What's even stickier is that because React doesn't care how you do all this, it's hard to fix. The best you can do is release an org wide guideline on when to reach for what tools, but theres nothing in React itself that can enforce any of these patterns unless you build it yourself (for example using a pattern like Flow, but if you're doing that you might as well just use Redux). I also have found that despite how powerful frameworks like Next.js are, they still don't really solve this problem since the front end of a Next app is essentially still just React. Next solves for the problem of how routing and pages should work on your frontend, and it does provide a pretty thin API layer, but it doesn't give you an opinionated way to organize how data flows through the application. 
+
+Strong React developers usually have a great sense of what makes a component "Reactive", this idea of writing a declarative pure function that perfectly describes how a visual element should look and how it should change over time. That "Reactive" paradigm just doesn't extend to the larger concerns of a front-end. React gives you nice ways to tell a component to look like its loading something while data isn't available, through `useEffect`s to fetch the data and `<Suspense>` to manage what a loading state looks like. That's its strength and why its so popular. The reality is, you can also use React to manage other parts of your application, and it does that job just fine. Not great, but fine. Custom hooks that call out to databases, backends, and services are a great abstraction for a lot of cases, but its not something react FORCES you do use. 
+
+That's not a problem at all, but knowing that React doesn't force your hand is key here. Once we are outside of the component, we are just in JavaScript land. Once we acknowledge that landscape, we can survey it with clear eyes and pick a better tool as our needs fit.
